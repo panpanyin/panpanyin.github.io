@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" id="inputBox">
+  <button id="queryBtn">查询</button>
+  <div id="resultArea"></div>
+
+  <script>
+    const queryBtn = document.getElementById('queryBtn');
+    const inputBox = document.getElementById('inputBox');
+    const resultArea = document.getElementById('resultArea');
+
+    queryBtn.addEventListener('click', () => {
+      const value = inputBox.value;
+
+      const promise = new Promise((resolve) => {
+        try {
+          const response = await fetch('/data.json');
+          if (response.ok) {
+            const data = await response.json();
+            const item = data.list.find(it => it.name === value);
+            document.getElementById('result').innerHTML = item;
+          }
+        } catch (error) {
+          document.getElementById('result').innerHTML = '未查询到结果';
+        }
+      });
+
+      promise.then(result => {
+        resultArea.innerHTML = result;
+      });
+    });
+  </script>
+</body>
+
+</html>
