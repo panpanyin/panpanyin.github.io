@@ -23,19 +23,19 @@
 
       const promise = new Promise((resolve) => {
         try {
-          const response = await fetch('/data.json');
-          if (response.ok) {
-            const data = await response.json();
-            const item = data.list.find(it => it.name === value);
-            document.getElementById('result').innerHTML = item;
-          }
+          fetch('https://panpanyin.github.io/data.json')
+            .then(response => response.json())
+            .then(data => {
+              const result = data.data.list.find(item => item.name === value);
+              console.log(result)
+              document.getElementById('resultArea').innerHTML = '已查询到结果';
+            })
+            .catch(error => {
+              console.error('出错了:', error);
+            });
         } catch (error) {
-          document.getElementById('result').innerHTML = '未查询到结果';
+          document.getElementById('resultArea').innerHTML = '未查询到结果';
         }
-      });
-
-      promise.then(result => {
-        resultArea.innerHTML = result;
       });
     });
   </script>
