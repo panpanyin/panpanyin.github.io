@@ -5,13 +5,58 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>信息查询</title>
+
+  <style>
+    .search-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f3f3f3;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .search-input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .search-button {
+      width: 80px;
+      padding: 10px;
+      background-color: #5e8ebe;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .search-button:hover {
+      background-color: #3e6688;
+    }
+    .search-result {
+      width: '100%';
+      margin-top: 20px;
+    }
+    .red-color {
+      color: 'red';
+    }
+    .green-color {
+      color: 'green';
+    }
+  </style>
 </head>
 
 <body>
-  <input type="text" id="inputBox">
-  <button id="queryBtn">查询</button>
-  <div id="resultArea"></div>
+  <div class="search-container">
+    <input id="inputBox" class="search-input" type="text" placeholder="输入你的姓名">
+    <button id="queryBtn" class="search-button">查询</button>
+  </div>
+  <div id="resultArea" class="search-result"></div>
 
   <script>
     const queryBtn = document.getElementById('queryBtn');
@@ -27,14 +72,17 @@
             .then(response => response.json())
             .then(data => {
               const result = data.data.list.find(item => item.name === value);
-              console.log(result)
-              document.getElementById('resultArea').innerHTML = '已查询到结果';
+              if (result) {
+                document.getElementById('resultArea').innerHTML = `<span class="green-color">已投保</span>`;
+              }else {
+                document.getElementById('resultArea').innerHTML = `<span class="red-color">未投保</span>`;
+              }
             })
             .catch(error => {
-              console.error('出错了:', error);
+              document.getElementById('resultArea').innerHTML = `<span class="red-color">信息查询错误，请稍后重试</span>`;
             });
         } catch (error) {
-          document.getElementById('resultArea').innerHTML = '未查询到结果';
+          document.getElementById('resultArea').innerHTML = `<span class="red-color">信息查询错误，请稍后重试</span>`;
         }
       });
     });
