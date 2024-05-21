@@ -53,7 +53,7 @@
 
 <body>
   <div class="search-container">
-    <input id="inputBox" class="search-input" type="text" placeholder="输入你的姓名">
+    <input id="inputBox" class="search-input" type="text" placeholder="输入你的身份证号">
     <button id="queryBtn" class="search-button">查询</button>
   </div>
   <div id="resultArea" class="search-result"></div>
@@ -73,7 +73,11 @@
             .then(data => {
               const result = data.data.list.find(item => item['身份证号码'] === value);
               if (result) {
-                document.getElementById('resultArea').innerHTML = `<span class="green-color">${result}</span>`;
+                var text = '';
+                Object.keys(result).filter(item => item != '序号').map(item => {
+                  text += '<span>' + item + '：</span>' + '<span style="color: red;">' + result[item] + '</span><br>';
+                })
+                document.getElementById("resultArea").innerHTML = text;
               }else {
                 document.getElementById('resultArea').innerHTML = `<span class="red-color">未查询到相关信息，请检查输入是否正确</span>`;
               }
