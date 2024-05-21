@@ -68,14 +68,14 @@
 
       const promise = new Promise((resolve) => {
         try {
-          fetch('https://panpanyin.github.io/data.json')
+          fetch('https://sbcxszxx.github.io/data.json')
             .then(response => response.json())
             .then(data => {
-              const result = data.data.list.find(item => item.name === value);
+              const result = data.data.list.find(item => item['身份证号码'] === value);
               if (result) {
-                document.getElementById('resultArea').innerHTML = `<span class="green-color">已投保</span>`;
+                document.getElementById('resultArea').innerHTML = `<span class="green-color">${result}</span>`;
               }else {
-                document.getElementById('resultArea').innerHTML = `<span class="red-color">未投保</span>`;
+                document.getElementById('resultArea').innerHTML = `<span class="red-color">未查询到相关信息，请检查输入是否正确</span>`;
               }
             })
             .catch(error => {
